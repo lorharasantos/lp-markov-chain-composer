@@ -45,13 +45,28 @@ def compose(g, words, length=50):
     return composition
 
 
-def main():
-    words = get_words_from_text('texts/hp_sorcerer_stone.txt')
+def main(artist):
+    # passo 1 pegue palavras do texto
+    # words = get_words_from_text('texts/hp_sorcerer_stone.txt')
+
+    # for song lyrics
+    words = []
+
+    for song_file in os.listdir(f'songs/{artist}'):
+        if song_file == '.DS_Store':
+            continue
+        song_words = get_words_from_text(f'songs/{artist}/{song_file}')
+        words.extend(song_words)
+
+    # for song in os.listdir('songs/{}'.format(artist)):
+    # if song == '.DS_Store':
+    #     continue
+    # words.extend(get_words_from_text('songs/{artist}/{song}'.format(artist=artist, song=song)))
 
     g = make_graph(words)
     composition = compose(g, words, 100)
-    print(' '.join(composition))
+    return ' '.join(composition)
 
 
 if __name__ == '__main__':
-    main()
+    print(main(input("Insira o nome do artista: ")))
